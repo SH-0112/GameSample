@@ -159,8 +159,10 @@ public class ACLikeController : MonoBehaviour {
 			//-実際のブースト移動.
 			if(Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0){//左右,前後どちらへも入力が無ければ.
 				//上向きに加速(上昇のみ,通常移動速度の追加補整/*と擬似重力を切る補正をかける*/).	
-				collisionFlags = controller.Move(Vector3.up * (moveSpeed + boostSpeed/* + gravity*/) * Time.deltaTime);
-			}else if(Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") != 0){//左右,前後の入力が同時に入っていれば.
+				
+				//collisionFlags = controller.Move(Vector3.up * (moveSpeed + boostSpeed/* + gravity*/) * Time.deltaTime);
+			
+				}else if(Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") != 0){//左右,前後の入力が同時に入っていれば.
 				//√2で割った値で該当方向へ加速.
 				collisionFlags = controller.Move(boostDirection * boostSpeed / Mathf.Sqrt(2.0f) * Time.deltaTime);
 			}else{//そうでなければ1方向へ入力なので,
@@ -198,7 +200,7 @@ public class ACLikeController : MonoBehaviour {
 	}
 	//ブーストゲージの回復.
 	void ApplyBoostEnergyCharge(){
-		boostEnergy += Time.deltaTime;//ブーストゲージを回復する.
+		boostEnergy += Time.deltaTime * boostEnergyMax/20;//ブーストゲージを回復する.
 		if(boostEnergy > boostEnergyMax){//上限値以上になったら修正.
 			boostEnergy = boostEnergyMax;
 		}
